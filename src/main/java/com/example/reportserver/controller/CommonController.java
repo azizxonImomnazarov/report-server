@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.reportserver.constants.SesseionConstants.LOCALE_SESSION_ATTRIBUTE;
+import static com.example.reportserver.constants.SessionConstants.LOCALE_SESSION_ATTRIBUTE;
 
 @RestController
 @RequestMapping("/api/common")

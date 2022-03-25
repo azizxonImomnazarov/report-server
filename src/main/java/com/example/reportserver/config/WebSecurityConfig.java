@@ -1,5 +1,6 @@
 package com.example.reportserver.config;
 
+import com.example.reportserver.security.handler.CustomSuccessHandler;
 import com.example.reportserver.security.filter.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +21,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
 
+    private final CustomFilter customFilter;
+    private final CustomSuccessHandler customSuccessHandler;
+
+    public WebSecurityConfig(CustomFilter customFilter, CustomSuccessHandler customSuccessHandler) {
+        this.customFilter = customFilter;
+        this.customSuccessHandler = customSuccessHandler;
+    }
+
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -39,13 +48,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
 //                .loginPage("/login")
-//                .loginProcessingUrl("")
+//                .loginProcessingUrl("/login")
+                .successHandler(customSuccessHandler)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/common/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
+                .addFilterAfter(customFilter, BasicAuthenticationFilter.class);
     }
 
     @Override

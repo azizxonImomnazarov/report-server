@@ -32,4 +32,9 @@ public class UserService implements UserDetailsService {
         UserDetails user = User.withUsername(userBean.getUsername()).password(userBean.getPassword()).authorities(roles).build();
         return user;
     }
+
+    public UserBean getUserByUsername(String username) throws UsernameNotFoundException {
+        UserBean userBean = new UserBean("some-username", "some-password"); // TODO get user
+        return userBean;
+    }
 }
